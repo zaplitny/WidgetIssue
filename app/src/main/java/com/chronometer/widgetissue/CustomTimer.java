@@ -1,33 +1,32 @@
 package com.chronometer.widgetissue;
 
+class CustomTimer {
 
-public class Activity {
-
-    private int id;
+    private long id;
     private long start;
     private int status = 0; // 1 for stopped
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public long getStart() {
+    long getStart() {
         return start;
     }
 
-    public void setStart(long start) {
+    void setStart(long start) {
         this.start = start;
     }
 
-    public int getStatus() {
+    int getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    void setStatus(int status) {
         this.status = status;
     }
 }

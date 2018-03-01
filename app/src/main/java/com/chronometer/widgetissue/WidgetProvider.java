@@ -41,10 +41,10 @@ public class WidgetProvider extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
         if (ADD_ACTION.equals(intent.getAction())) {
-            Activity activity = new Activity();
-            activity.setStatus(0);
-            activity.setStart(new Date().getTime());
-            DBHelper.getInstance(context).createActivity(activity);
+            CustomTimer customTimer = new CustomTimer();
+            customTimer.setStatus(0);
+            customTimer.setStart(new Date().getTime());
+            DBHelper.getInstance(context).createActivity(customTimer);
         }
         else if (STOP_ACTION.equals(intent.getAction())) {
             Long activityId = intent.getExtras().getLong(ACTIVITY_ID);;

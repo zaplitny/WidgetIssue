@@ -12,7 +12,7 @@ import java.util.List;
 public class WidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory  {
 
     private final Context context;
-    private List<Activity> activityList;
+    private List<CustomTimer> customTimerList;
 
     public WidgetRemoteViewsFactory(Context context) {
         this.context = context;
@@ -35,22 +35,22 @@ public class WidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
 
     @Override
     public int getCount() {
-        return activityList.size();
+        return customTimerList.size();
     }
 
     @Override
     public RemoteViews getViewAt(int i) {
 
-        Activity activity = activityList.get(i);
+        CustomTimer customTimer = customTimerList.get(i);
 
         RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget_timer);
 
-        rv.setChronometer(R.id.widget_timer, SystemClock.elapsedRealtime() - System.currentTimeMillis() +  activity.getStart(), null, true);
+        rv.setChronometer(R.id.widget_timer, SystemClock.elapsedRealtime() - System.currentTimeMillis() +  customTimer.getStart(), null, true);
 
         final Intent fillInIntent = new Intent();
         final Bundle extras = new Bundle();
         fillInIntent.setAction(WidgetProvider.STOP_ACTION);
-        extras.putLong(WidgetProvider.ACTIVITY_ID, activity.getId());
+        extras.putLong(WidgetProvider.ACTIVITY_ID, customTimer.getId());
         fillInIntent.putExtras(extras);
 
         rv.setOnClickFillInIntent(R.id.widget_stop, fillInIntent);
@@ -79,6 +79,6 @@ public class WidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
     }
 
     private void initActivityList() {
-        activityList = DBHelper.getInstance(context).findActivities();
+        customTimerList = DBHelper.getInstance(context).findActivities();
     }
 }

@@ -7,13 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
 
 public class DBHelper extends SQLiteOpenHelper {
 
     private static DBHelper mInstance = null;
-    private Context context;
 
     public static DBHelper getInstance(Context applicationContext) {
         if (mInstance == null) {
@@ -24,7 +23,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private DBHelper(Context applicationcontext) {
         super(applicationcontext, "application.db", null, 1);
-        this.context = applicationcontext;
     }
 
     @Override
@@ -38,32 +36,35 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-    public List<Activity> findActivities() {
-        ArrayList<Activity> result = new ArrayList<>();
+    List<CustomTimer> findActivities() {
+        ArrayList<CustomTimer> result = new ArrayList<>();
         SQLiteDatabase database = getDatabase();
         Cursor cursor = database.rawQuery("SELECT id, start, status FROM activity WHERE status = 0", null);
         if (cursor.moveToFirst()) {
             do {
-                Activity activity = new Activity();
-                activity.setId(cursor.getInt(0));
-                activity.setStart(cursor.getLong(1));
-                activity.setStatus(cursor.getInt(2));
-                result.add(activity);
+                CustomTimer customTimer = new CustomTimer();
+                customTimer.setId(cursor.getLong(0));
+                customTimer.setStart(cursor.getLong(1));
+                customTimer.setStatus(cursor.getInt(2));
+                result.add(customTimer);
             } while (cursor.moveToNext());
         }
         cursor.close();
         return result;
     }
 
-    public void createActivity(Activity activity) {
+    void createActivity(CustomTimer a) {
+        CustomTimer customTimer = new CustomTimer();
+        customTimer.setStart(new Date().getTime());
+
         ContentValues values = new ContentValues();
-        values.put("start", activity.getStart());
-        values.put("status", activity.getStatus());
+        values.put("start", customTimer.getStart());
+        values.put("status", customTimer.getStatus());
         Long id = getDatabase().insert("activity", null, values);
-        activity.setId(id.intValue());
+        customTimer.setId(id.intValue());
     }
 
-    public void stopActivity(Long activityId) {
+    void stopActivity(Long activityId) {
         SQLiteDatabase database = getDatabase();
         try {
             database.beginTransaction();
