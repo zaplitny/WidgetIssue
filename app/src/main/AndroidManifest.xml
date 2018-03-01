@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.chronometer.widgetissue">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name="com.chronometer.widgetissue.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name="com.chronometer.widgetissue.WidgetProvider" android:label="Widget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="com.chronometer.widgetissue.ADD" />
+                <action android:name="com.chronometer.widgetissue.STOP" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info"/>
+        </receiver>
+
+        <service
+            android:name="com.chronometer.widgetissue.WidgetService"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+    </application>
+
+</manifest>
